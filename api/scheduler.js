@@ -1,10 +1,8 @@
-const schedule = require("node-schedule")
 const axios = require("axios").default
 const sendEmail = require("../helpers/send-mail")
 
 const url =
-  "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin"
-let job
+  "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin";
 
 function processData(data, min_age_limit = 18) {
   let avlSession = []
@@ -31,34 +29,32 @@ function processData(data, min_age_limit = 18) {
 }
 
 function fetchSchedule(pincode, date, min_age_limit) {
-  axios
-    .get(url, {
-      params: { pincode, date },
-      headers: {
-        "Accept-Language": "hi_IN",
-        accept: "application/json",
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
-      },
-    })
-    .then(function (response) {
-      const data = processData(response.data, min_age_limit)
+  return axios.get(url, {
+    params: { pincode, date },
+    headers: {
+      "Accept-Language": "hi_IN",
+      accept: "application/json",
+      "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+    },
+  })
+}
+
+module.exports = async function execute(res, req, next){
+  const { pin, date, age } =  req.query;
+  let msg = "Please provide valid pincode and date."
+  try {
+    if (pin && date) {
+      const response = await fetchSchedule(pin, date, age);
+      const data = processData(response.data, age);
       if (Object.entries(data).length) {
         sendEmail(JSON.stringify(data))
       }
-    })
-    .catch(function (error) {
-      console.log(error)
-    })
-}
-
-
-module.exports = (req, res) => {
-  const { pin, date, age } = req.query
-  let msg = "Please provide valid pincode and date."
-  if (pin && date) {
-    fetchSchedule(pincode, date, age)
-    msg = "Scheduler has started"
+      msg = "Scheduler has started"
+    }
+    res.send(msg);
+  } catch (e) {
+    next('Something wrong has happend!')
   }
-  res.send(msg)
 }
+
