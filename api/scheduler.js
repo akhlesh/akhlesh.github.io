@@ -29,13 +29,9 @@ function processData(data, min_age_limit = 18) {
 }
 
 function fetchSchedule(pincode, date) {
-  return axios.get(url, {
-    params: { pincode, date },
+  return axios.get(`${url}?pincode=${pincode}&date=${date}`, {
     headers: {
-      "Accept-Language": "hi_IN",
-      accept: "application/json",
-      "User-Agent":
-          "covid-vaccine-scheduler (https://akhlesh.in/api/scheduler)",
+      "User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36'
     },
   })
 }
