@@ -31,13 +31,20 @@ function processData(data, min_age_limit = 18) {
 function fetchSchedule(pincode, date) {
   return axios.get(`${url}?pincode=${pincode}&date=${date}`, {
     headers: {
+      Accept: "application/json, text/plain, */*",
+      "Accept-Language": "en-US,en;q=0.5",
       "User-Agent":
         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
       Authorization:
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX25hbWUiOiIxNDFmYmU4Yi01MzE0LTRkYjktYWNhMS1hODkxMWE4ZDMyZGEiLCJ1c2VyX2lkIjoiMTQxZmJlOGItNTMxNC00ZGI5LWFjYTEtYTg5MTFhOGQzMmRhIiwidXNlcl90eXBlIjoiQkVORUZJQ0lBUlkiLCJtb2JpbGVfbnVtYmVyIjo5NTUyNTUwNjg2LCJiZW5lZmljaWFyeV9yZWZlcmVuY2VfaWQiOjg1MzE1MzM4NjQ2NDQwLCJzZWNyZXRfa2V5IjoiYjVjYWIxNjctNzk3Ny00ZGYxLTgwMjctYTYzYWExNDRmMDRlIiwidWEiOiJNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODkuMC40Mzg5LjExNCBTYWZhcmkvNTM3LjM2IEVkZy84OS4wLjc3NC42OCIsImRhdGVfbW9kaWZpZWQiOiIyMDIxLTA1LTA5VDE3OjU5OjMxLjQ2MFoiLCJpYXQiOjE2MjA1ODMxNzEsImV4cCI6MTYyMDU4NDA3MX0.0gBQcEkAwwipMend2gVMog7mzWjl4m-DnYubg34heHM",
-      origin: "https://selfregistration.cowin.gov.in",
-      referer: "https://selfregistration.cowin.gov.in/",
+      Pragma: "no-cache",
+      referrer: "https://selfregistration.cowin.gov.in/",
+      mode: "cors",
+      credentials: "include",
     },
+    referrer: "https://selfregistration.cowin.gov.in/",
+    mode: "cors",
+    credentials: "include",
   })
 }
 
