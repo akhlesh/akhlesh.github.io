@@ -33,7 +33,9 @@ function fetchSchedule(pincode, date) {
     params: { pincode, date },
     headers: {
       "Accept-Language": "hi_IN",
-      accept: "application/json"
+      accept: "application/json",
+      "User-Agent":
+          "covid-vaccine-scheduler (https://akhlesh.in/api/scheduler)",
     },
   })
 }
