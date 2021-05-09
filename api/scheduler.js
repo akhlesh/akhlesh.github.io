@@ -2,7 +2,7 @@ const axios = require("axios").default
 const sendEmail = require("../helpers/send-mail")
 
 const url =
-  "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin";
+  "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin"
 
 function processData(data, min_age_limit = 18) {
   let avlSession = []
@@ -23,9 +23,9 @@ function processData(data, min_age_limit = 18) {
     if (avlSession && avlSession.length) {
       p[c.center_id] = { address: c.address, avlSession }
     }
-    return p;
+    return p
   }, {})
-  return out;
+  return out
 }
 
 function fetchSchedule(pincode, date, min_age_limit) {
@@ -40,21 +40,21 @@ function fetchSchedule(pincode, date, min_age_limit) {
   })
 }
 
-module.exports = async function execute(res, req, next){
-  const { pin, date, age } =  req.query;
+module.exports = async function execute(req, res) {
+  const { pin, date, age } = req.query
   let msg = "Please provide valid pincode and date."
   try {
     if (pin && date) {
-      const response = await fetchSchedule(pin, date, age);
-      const data = processData(response.data, age);
+      const response = await fetchSchedule(pin, date, age)
+      const data = processData(response.data, age)
       if (Object.entries(data).length) {
         sendEmail(JSON.stringify(data))
       }
       msg = "Scheduler has started"
     }
-    res.send(msg);
   } catch (e) {
-    next('Something wrong has happend!')
+    msg = "Something wrong has happend!"
+  } finally {
+    res.send(msg)
   }
 }
-
