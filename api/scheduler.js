@@ -28,14 +28,12 @@ function processData(data, min_age_limit = 18) {
   return out
 }
 
-function fetchSchedule(pincode, date, min_age_limit) {
+function fetchSchedule(pincode, date) {
   return axios.get(url, {
     params: { pincode, date },
     headers: {
       "Accept-Language": "hi_IN",
-      accept: "application/json",
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+      accept: "application/json"
     },
   })
 }
@@ -46,7 +44,7 @@ module.exports = async function execute(req, res) {
   let msg = "Please provide valid pincode and date."
   try {
     if (pin && date) {
-      const response = await fetchSchedule(pin, date, age)
+      const response = await fetchSchedule(pin, date)
       const data = processData(response.data, age)
       console.log(data)
       if (Object.entries(data).length) {
