@@ -42,17 +42,20 @@ function fetchSchedule(pincode, date, min_age_limit) {
 
 module.exports = async function execute(req, res) {
   const { pin, date, age } = req.query
+  console.log(req.query)
   let msg = "Please provide valid pincode and date."
   try {
     if (pin && date) {
       const response = await fetchSchedule(pin, date, age)
       const data = processData(response.data, age)
+      console.log(data)
       if (Object.entries(data).length) {
         sendEmail(JSON.stringify(data))
       }
       msg = "Scheduler has started"
     }
   } catch (e) {
+    console.log(e)
     msg = "Something wrong has happend!"
   } finally {
     res.send(msg)
